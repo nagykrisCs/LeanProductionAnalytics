@@ -11,20 +11,14 @@ namespace szakdoga.Infrastructure
             _reader = reader;
         }
 
-        public List<Production> ProductionParse(string filePath)
+        // Method to Parse opened Production files into objects
+        public IEnumerable<Production> ProductionParse(string filePath)
         {
-            string data = _reader.ReadFile(filePath);
+            IEnumerable<string> productionData = _reader.ReadFile(filePath);
 
-            List<Production> productions = new List<Production>();
-
-            string[] lines = data.Split(
-                Environment.NewLine,
-                StringSplitOptions.RemoveEmptyEntries
-            );
-
-            for (int i = 0; i < lines.Length; i++)
+            foreach (var lines in productionData)
             {
-                string[] cells = lines[i].Split(',');
+                var cells = lines.Split(",");
 
                 Production production = new Production();
 
@@ -35,8 +29,9 @@ namespace szakdoga.Infrastructure
                 production.OperatorId = cells[4].Trim();
                 production.Shift = cells[5].Trim();
 
-                production.StartTime = DateTime.Parse(cells[6].Trim());
-                production.EndTime = DateTime.Parse(cells[7].Trim());
+                production.StartTime = DateTime.ParseExact(cells[6].Trim(), "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+
+                production.EndTime = DateTime.ParseExact(cells[7].Trim(), "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
 
                 production.ProcessingTime = int.Parse(cells[8].Trim());
                 production.QueueTime = int.Parse(cells[9].Trim());
@@ -46,10 +41,8 @@ namespace szakdoga.Infrastructure
 
                 production.SetupTime = int.Parse(cells[12].Trim());
 
-                productions.Add(production);
+                yield return production;
             }
-
-            return productions;
         }
     }
 }

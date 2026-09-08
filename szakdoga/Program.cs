@@ -21,6 +21,36 @@ class Program
 
         var productions = parser.ProductionParse(filePath);
 
-        Console.WriteLine($"Parsed {productions.Count} production rows");
+        foreach (var production in productions)
+        {
+            Console.WriteLine($"{production.EndTime}");
+        }
+
+
+
+
+
+        /*
+         * TODO: 
+         * - Data reading:
+         * Add JIG data reading
+         * Add excel reading
+         * 
+         * 
+         * Implement database from a CSV/excel (for statistical calculation speed. we dont want to query a whole CSV or Excel file especially with big data sets)
+         * With that, create infrastructure layer.
+         * 
+         * 
+         * - Start adding interfaces
+         * 
+         * 
+         * 
+         * 
+         * - UI:
+         * Create basic UI for starters; With that, create application layer
+         * 
+         * 
+         * 
+         */
     }
 }

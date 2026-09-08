@@ -1,27 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace szakdoga.Infrastructure
 {
     public class FileReader
     {
-        public string ReadFile(string filePath)
+        // Method to Read file; Line-by-Line; to avoid bad memory allocation
+        public IEnumerable<string> ReadFile(string filePath)
         {
-            List<string> cells = new List<string>();
-            StreamReader reader = new StreamReader(filePath);
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                // Skip first line (header) of the file
+                reader.ReadLine();
 
-            // We ignorre the first line for now; Just variable names
-            string line = reader.ReadLine();
+                string line = reader.ReadLine();
 
+                while (line != null)
+                {
+                    yield return line;
 
-            string file = reader.ReadToEnd();
-
-            reader.Close();
-
-            // Would cost too much memory to store this in bigger data files. we need to break it down later
-            return file;
+                    line = reader.ReadLine();
+                }
+            }  
         }
     }
 }
