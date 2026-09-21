@@ -1,14 +1,16 @@
 ﻿using Microsoft.Win32;
 using System.IO;
+using System.Windows;
 using System.Windows.Shapes;
 using static System.Net.Mime.MediaTypeNames;
 
 
-namespace szakdoga.Infrastructure
+namespace LeanProductionAnalytics.Infrastructure
 {
     public class FileHandler
     {
-        public string? GetFile()
+        // Method to open file frop WPF
+        public string GetFile()
         {
             OpenFileDialog file = new OpenFileDialog();
 

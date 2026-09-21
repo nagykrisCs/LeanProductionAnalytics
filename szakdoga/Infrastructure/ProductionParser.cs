@@ -1,6 +1,7 @@
-﻿using szakdoga.Domain;
+﻿using LeanProductionAnalytics.Domain;
+using System.Xml;
 
-namespace szakdoga.Infrastructure
+namespace LeanProductionAnalytics.Infrastructure
 {
     public class ProductionParser
     {
@@ -14,7 +15,7 @@ namespace szakdoga.Infrastructure
         // Method to Parse opened Production files into objects
         public IEnumerable<Production> ProductionParse(string filePath)
         {
-            IEnumerable<string> productionData = _reader.ReadFile(filePath);
+            IEnumerable<string> productionData = _reader.ReadTextFile(filePath);
 
             foreach (var lines in productionData)
             {
@@ -22,6 +23,7 @@ namespace szakdoga.Infrastructure
 
                 Production production = new Production();
 
+                production.Id = Guid.NewGuid(); 
                 production.JobId = cells[0].Trim();
                 production.ProductName = cells[1].Trim();
                 production.Operation = cells[2].Trim();

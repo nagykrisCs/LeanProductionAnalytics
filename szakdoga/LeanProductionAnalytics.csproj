@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net10.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>LeanProductionAnalytics</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Migrations\JigMigration\**" />
+	  <Compile Remove="Migrations\ProductionMigration\**" />
+	  <EmbeddedResource Remove="Migrations\JigMigration\**" />
+	  <EmbeddedResource Remove="Migrations\ProductionMigration\**" />
+	  <None Remove="Migrations\JigMigration\**" />
+	  <None Remove="Migrations\ProductionMigration\**" />
+	  <Page Remove="Migrations\JigMigration\**" />
+	  <Page Remove="Migrations\ProductionMigration\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.12" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	    <PrivateAssets>all</PrivateAssets>
+	  </PackageReference>
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.12" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="10.0.12" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Application\" />
+	</ItemGroup>
+
+</Project>

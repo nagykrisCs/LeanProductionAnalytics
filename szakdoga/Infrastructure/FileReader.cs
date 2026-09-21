@@ -4,12 +4,12 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace szakdoga.Infrastructure
+namespace LeanProductionAnalytics.Infrastructure
 {
     public class FileReader
     {
         // Method to Read file; Line-by-Line; to avoid bad memory allocation
-        public IEnumerable<string> ReadFile(string filePath)
+        public IEnumerable<string> ReadTextFile(string filePath)
         {
             using (StreamReader reader = new StreamReader(filePath))
             {

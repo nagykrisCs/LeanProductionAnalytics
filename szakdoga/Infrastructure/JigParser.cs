@@ -1,7 +1,7 @@
 ﻿using System.IO;
-using szakdoga.Domain;
+using LeanProductionAnalytics.Domain;
 
-namespace szakdoga.Infrastructure
+namespace LeanProductionAnalytics.Infrastructure
 {
     class JigParser
     {
@@ -15,7 +15,7 @@ namespace szakdoga.Infrastructure
         // Method to Parse opened Jig files and return it as objects
         public IEnumerable<Jig> JigParse(string filePath)
         {
-            IEnumerable<string> jigData = _reader.ReadFile(filePath);
+            IEnumerable<string> jigData = _reader.ReadTextFile(filePath);
 
             foreach (var lines in jigData)
             {
