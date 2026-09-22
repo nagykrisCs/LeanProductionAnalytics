@@ -10,6 +10,7 @@ namespace LeanProductionAnalytics.Domain
         [Key]
         public Guid Id { get; set; }
 
+        public JigExchange? JigExchange { get; set; }
         public string? JobId { get; set; }
         public string? ProductName { get; set; }
         public string? Operation { get; set; }

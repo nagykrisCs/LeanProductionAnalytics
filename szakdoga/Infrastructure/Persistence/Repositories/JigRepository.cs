@@ -14,16 +14,29 @@ namespace LeanProductionAnalytics.Infrastructure.Persistence.Repositories
             this._dbcontext = dbcontext;
         }
 
-        public void InsertJigRow(Jig jigRow)
+        // Method to insert a row of Jig
+        public void InsertJigRow(JigStep jigRow)
         {
             _dbcontext.Add(jigRow);
             _dbcontext.SaveChanges();
         }
 
-        public void ReadJigTable()
+        // Method to insert an entire table of Jig
+        public void InsertJigTable(IEnumerable<JigStep> jigs)
         {
-            foreach (var row in _dbcontext.Jigs.ToList())
-                Console.WriteLine($"Id: {row.Id}");
+            foreach (var jig in jigs)
+            {
+                _dbcontext.Add(jig);
+            }
+            
+            _dbcontext.SaveChanges();
         }
+
+        // Method to read ID of Jig database - debugging purposes
+        //public void ReadJigTable()
+        //{
+        //    foreach (var row in _dbcontext.Jigs.ToList())
+        //        Console.WriteLine($"Id: {row.Id}");
+        //}
     }
 }

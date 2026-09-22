@@ -5,17 +5,17 @@ namespace LeanProductionAnalytics.Infrastructure
 {
     public class ProductionParser
     {
-        private FileReader _reader;
+        private FileInteractionManager _fileInteractionManager;
 
-        public ProductionParser(FileReader reader)
+        internal ProductionParser(FileInteractionManager fileInteractionManager)
         {
-            _reader = reader;
+            _fileInteractionManager = fileInteractionManager;
         }
 
-        // Method to Parse opened Production files into objects
+        // Method to Parse opened Production file into objects
         public IEnumerable<Production> ProductionParse(string filePath)
         {
-            IEnumerable<string> productionData = _reader.ReadTextFile(filePath);
+            IEnumerable<string> productionData = _fileInteractionManager.ReadTextFile(filePath);
 
             foreach (var lines in productionData)
             {

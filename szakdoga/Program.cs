@@ -1,6 +1,8 @@
-﻿using LeanProductionAnalytics.Infrastructure;
+﻿using LeanProductionAnalytics.Domain;
+using LeanProductionAnalytics.Infrastructure;
 using LeanProductionAnalytics.Infrastructure.Persistance;
 using LeanProductionAnalytics.Infrastructure.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 
 
@@ -9,42 +11,35 @@ class Program
     [STAThread]
     static void Main(string[] args)
     {
-        // Get the file path from the user
-        FileHandler fileHandler = new FileHandler();
+        // INIT CLASSES
 
-        string filePath = fileHandler.GetFile();
+        // File Manager
+        FileInteractionManager fileHandler = new FileInteractionManager();
+        // Parser
+        ProductionParser parser = new ProductionParser(fileHandler);
 
-        // TODO: Handle in method instead of main.
-        if (filePath == null)
-        {
-            Console.WriteLine("No file selected.");
-            return;
-        }
-
-        // Read the file given by the user
-        FileReader reader = new FileReader();
-
-        // Parse the file into objects
-        ProductionParser parser = new ProductionParser(reader);
-        var productions = parser.ProductionParse(filePath);
-
-        // Initialize DbContext and its settings
+        // DbContext +
         AppDbContextFactory dbContextSettings = new AppDbContextFactory();
+        // + its settings
         AppDbContext dbContext = dbContextSettings.CreateDbContext(args);
-
-        // Initialize the Database communicator
+        // Database communicator
         ProductionRepository productionRepository = new ProductionRepository(dbContext);
 
-        // Write read file into DB
-        foreach (var production in productions)
-        {
-            productionRepository.InsertProductionRow(production);
-        }
+        // ---------------------------------------------------------------------------------
+
+        // Get the file path from the user
+        string filePath = fileHandler.GetFile();
+
+        // Parse the file into objects
+        var productions = parser.ProductionParse(filePath);
+
+        // Write file into DB
+        productionRepository.InsertProductionTable(productions);
 
         // Read table
-        productionRepository.ReadProdTable();
+        productionRepository.ReadProductionTable();
 
-
+        // ASAP TODO: Create repository for new data model.  Check commented section in FileInteractionManager
 
         /*
          * TODO:

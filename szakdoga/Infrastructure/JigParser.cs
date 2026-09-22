@@ -5,33 +5,33 @@ namespace LeanProductionAnalytics.Infrastructure
 {
     class JigParser
     {
-        private FileReader _reader;
+        private FileInteractionManager _fileInteractionManager;
         
-        public JigParser(FileReader reader)
+        public JigParser(FileInteractionManager fileInteractionManager)
         {
-            _reader = reader;
+            _fileInteractionManager = fileInteractionManager;
         }
 
-        // Method to Parse opened Jig files and return it as objects
-        public IEnumerable<Jig> JigParse(string filePath)
-        {
-            IEnumerable<string> jigData = _reader.ReadTextFile(filePath);
+        // Method to Parse opened Jig file into objects
+        //public IEnumerable<JigStep> JigParse(string filePath)
+        //{
+        //    IEnumerable<string> jigData = _fileInteractionManager.ReadTextFile(filePath);
 
-            foreach (var lines in jigData)
-            {
-                var cells = lines.Split(",");
+        //    foreach (var lines in jigData)
+        //    {
+        //        var cells = lines.Split(",");
 
-                Jig jig = new Jig();
+        //        JigStep jig = new JigStep();
 
-                jig.SetupId = cells[0].Trim();
-                jig.JobId = cells[1].Trim();
-                jig.MachineId = cells[2].Trim();
-                jig.OperatorId = cells[3].Trim();
-                jig.Step = cells[4].Trim();
-                jig.Duration = int.Parse(cells[5].Trim());
+        //        jig.SetupId = cells[0].Trim();
+        //        jig.JobId = cells[1].Trim();
+        //        jig.MachineId = cells[2].Trim();
+        //        jig.OperatorId = cells[3].Trim();
+        //        jig.Step = cells[4].Trim();
+        //        jig.Duration = int.Parse(cells[5].Trim());
 
-                yield return jig;
-            }
-        }
+        //        yield return jig;
+        //    }
+        //}
     }
 }

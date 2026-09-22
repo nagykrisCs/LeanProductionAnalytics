@@ -17,5 +17,7 @@ namespace LeanProductionAnalytics.Infrastructure.Persistance
 
             return new AppDbContext(optionsBuilder.Options);
         }
+
+
     }
 }

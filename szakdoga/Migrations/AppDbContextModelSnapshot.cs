@@ -10,14 +10,35 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LeanProductionAnalytics.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class StorageBrokerDbContextModelSnapshot : ModelSnapshot
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.12");
 
-            modelBuilder.Entity("LeanProductionAnalytics.Domain.Jig", b =>
+            modelBuilder.Entity("LeanProductionAnalytics.Domain.JigExchange", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ProductionId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SetupId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductionId")
+                        .IsUnique();
+
+                    b.ToTable("JigExchange");
+                });
+
+            modelBuilder.Entity("LeanProductionAnalytics.Domain.JigStep", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -26,21 +47,11 @@ namespace LeanProductionAnalytics.Migrations
                     b.Property<int>("Duration")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("JobId")
-                        .IsRequired()
+                    b.Property<Guid>("JigExchangeId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("MachineId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("OperatorId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("SetupId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Sequence")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Step")
                         .IsRequired()
@@ -48,7 +59,9 @@ namespace LeanProductionAnalytics.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Jigs");
+                    b.HasIndex("JigExchangeId");
+
+                    b.ToTable("JigStep");
                 });
 
             modelBuilder.Entity("LeanProductionAnalytics.Domain.Production", b =>
@@ -99,6 +112,38 @@ namespace LeanProductionAnalytics.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Productions");
+                });
+
+            modelBuilder.Entity("LeanProductionAnalytics.Domain.JigExchange", b =>
+                {
+                    b.HasOne("LeanProductionAnalytics.Domain.Production", "Production")
+                        .WithOne("JigExchange")
+                        .HasForeignKey("LeanProductionAnalytics.Domain.JigExchange", "ProductionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Production");
+                });
+
+            modelBuilder.Entity("LeanProductionAnalytics.Domain.JigStep", b =>
+                {
+                    b.HasOne("LeanProductionAnalytics.Domain.JigExchange", "JigExchange")
+                        .WithMany("JigSteps")
+                        .HasForeignKey("JigExchangeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("JigExchange");
+                });
+
+            modelBuilder.Entity("LeanProductionAnalytics.Domain.JigExchange", b =>
+                {
+                    b.Navigation("JigSteps");
+                });
+
+            modelBuilder.Entity("LeanProductionAnalytics.Domain.Production", b =>
+                {
+                    b.Navigation("JigExchange");
                 });
 #pragma warning restore 612, 618
         }
